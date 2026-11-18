@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#4a356f">
+  <title>For My Princess, Sushma</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f6f3ff;
+      --bg-warm: #fbf7ef;
+      --surface: #ffffff;
+      --surface-soft: #fffdfa;
+      --text: #2a2438;
+      --muted: #6d6483;
+      --purple: #4a356f;
+      --purple-deep: #352650;
+      --purple-soft: #ede7f8;
+      --lavender: #dcd2f3;
+      --blue-soft: #e6efff;
+      --blue-accent: #5f7fd6;
+      --gold: #c9962b;
+      --gold-deep: #9a6f1a;
+      --gold-soft: #fbf1d8;
+      --line: #e5dccb;
+      --line-soft: #ebe4f6;
+      --success: #2f7d57;
+      --success-bg: #eaf7f0;
+      --warn: #8a6518;
+      --warn-bg: #fff6e6;
+      --warn-border: #efd7a7;
+      --shadow-sm: 0 6px 18px rgba(53, 38, 80, 0.07);
+      --shadow-md: 0 16px 40px rgba(53, 38, 80, 0.1);
+      --shadow-lg: 0 24px 60px rgba(53, 38, 80, 0.14);
+      --radius-lg: 22px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+      --max: 960px;
+      --ease: 0.3s ease;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(900px 520px at 8% 0%, rgba(95, 127, 214, 0.16), transparent 60%),
+        radial-gradient(800px 480px at 100% 5%, rgba(201, 150, 43, 0.14), transparent 55%),
+        radial-gradient(700px 420px at 50% 100%, rgba(164, 139, 214, 0.18), transparent 60%),
+        linear-gradient(180deg, #fbfaff 0%, #f6f3ff 35%, #fbf7ef 100%);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    img { max-width: 100%; display: block; }
+    button, input { font: inherit; }
+
+    h1, h2, h3 {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-weight: 600;
+      line-height: 1.15;
+      margin: 0;
+      color: var(--purple-deep);
+    }
+
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    /* Login */
+    #loginScreen.active {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1.25rem;
+      position: relative;
+      overflow: hidden;
+    }
+    #loginScreen.active::before,
+    #loginScreen.active::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(40px);
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    #loginScreen.active::before {
+      width: 420px; height: 420px;
+      top: -120px; left: -80px;
+      background: radial-gradient(circle, rgba(95,127,214,0.22), transparent 70%);
+    }
+    #loginScreen.active::after {
+      width: 380px; height: 380px;
+      bottom: -120px; right: -60px;
+      background: radial-gradient(circle, rgba(201,150,43,0.2), transparent 70%);
+    }
+
+    .login-card {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 460px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(255,253,248,0.98) 100%);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(220, 210, 243, 0.9);
+      border-radius: var(--radius-lg);
+      padding: 2.75rem 2.25rem 2.25rem;
+      box-shadow: var(--shadow-lg), 0 0 0 1px rgba(255,255,255,0.6) inset;
+      text-align: center;
+      overflow: hidden;
+    }
+    .login-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--blue-accent), var(--purple), var(--gold), var(--purple), var(--blue-accent));
+      opacity: 0.9;
+    }
+    .login-crest {
+      width: 56px;
+      height: 56px;
+      margin: 0.3rem auto 1rem;
+      color: var(--gold);
+      background: linear-gradient(135deg, var(--gold-soft), #fff);
+      border: 1px solid rgba(201,150,43,0.25);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 16px rgba(201,150,43,0.15);
+    }
+    .login-crest svg { width: 28px; height: 28px; }
+    .eyebrow {
+      font-size: 0.76rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--blue-accent);
+      margin: 0 0 0.6rem;
+      font-weight: 600;
+    }
+    .login-card h1 {
+      font-size: clamp(2rem, 4.5vw, 2.6rem);
+      margin-bottom: 0.4rem;
+    }
+    .login-card h1 span {
+      background: linear-gradient(135deg, var(--gold-deep), var(--gold));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .login-sub {
+      color: var(--muted);
+      margin: 0 auto 2rem;
+      font-size: 1rem;
+      max-width: 34ch;
+    }
+    .field { text-align: left; margin-bottom: 1.1rem; }
+    label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+    .input {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      border: 1.5px solid #ddd4ea;
+      border-radius: var(--radius-sm);
+      background: #fff;
+      color: var(--text);
+      transition: border-color var(--ease), box-shadow var(--ease), background var(--ease);
+    }
+    .input::placeholder { color: #a59eb8; }
+    .input:focus {
+      outline: none;
+      border-color: var(--blue-accent);
+      box-shadow: 0 0 0 4px rgba(95, 127, 214, 0.15);
+      background: #fdfcff;
+    }
+    .hint {
+      min-height: 0;
+      margin: 0.1rem 0 0.85rem;
+      font-size: 0.9rem;
+      color: var(--warn);
+      text-align: left;
+      border-radius: var(--radius-sm);
+      transition: all 0.2s ease;
+    }
+    .hint:not(:empty) {
+      padding: 0.75rem 0.95rem;
+      background: var(--warn-bg);
+      border: 1px solid var(--warn-border);
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 1rem 1.25rem;
+      border: none;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, var(--purple) 0%, #5a4486 45%, var(--purple-deep) 100%);
+      color: #fff;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 10px 22px rgba(53, 38, 80, 0.25);
+      transition: transform var(--ease), box-shadow var(--ease), filter var(--ease);
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px rgba(53, 38, 80, 0.3);
+      filter: brightness(1.04);
+    }
+    .btn:active { transform: translateY(0); }
+
+    /* Surprise */
+    #surpriseScreen {
+      padding: 3.5rem 1.25rem 4.5rem;
+    }
+    .container {
+      max-width: var(--max);
+      margin: 0 auto;
+    }
+
+    .hero {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 1rem 0 1.5rem;
+    }
+    .hero-crest {
+      width: 52px;
+      height: 52px;
+      margin: 0 auto 0.8rem;
+      color: var(--gold);
+      background: linear-gradient(135deg, var(--gold-soft), #fff);
+      border: 1px solid rgba(201,150,43,0.25);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 16px rgba(201,150,43,0.12);
+    }
+    .hero-crest svg { width: 26px; height: 26px; }
+    .hero h1 {
+      font-size: clamp(2.4rem, 5.5vw, 3.9rem);
+      margin-bottom: 0.85rem;
+      letter-spacing: 0.01em;
+    }
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--gold-deep), var(--gold));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .hero-lead {
+      font-size: 1.1rem;
+      color: var(--muted);
+      margin: 0 auto;
+      max-width: 64ch;
+    }
+    .hero-lead strong { color: var(--purple-deep); font-weight: 600; }
+    .ornament {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      margin: 2rem auto 0;
+      color: var(--gold);
+    }
+    .ornament::before, .ornament::after {
+      content: "";
+      height: 1px;
+      width: 80px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .ornament svg { width: 16px; height: 16px; }
+
+    .quote-banner {
+      max-width: 740px;
+      margin: 2.5rem auto 0;
+      text-align: center;
+      padding: 1.4rem 1.6rem;
+      border: 1px solid var(--line-soft);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+    }
+    .quote-banner.purple {
+      background: linear-gradient(135deg, rgba(237,231,248,0.7), rgba(255,255,255,0.9));
+      border-color: #ddd2f0;
+    }
+    .quote-banner.blue {
+      background: linear-gradient(135deg, rgba(230,239,255,0.7), rgba(255,255,255,0.9));
+      border-color: #d6e3fb;
+    }
+    .quote-banner p {
+      margin: 0;
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 1.45rem;
+      color: var(--purple-deep);
+      font-style: italic;
+      line-height: 1.5;
+    }
+    .quote-banner span {
+      color: var(--gold-deep);
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    .section { margin-top: 4rem; }
+    .section-head {
+      text-align: center;
+      margin-bottom: 1.75rem;
+    }
+    .section-head h2 {
+      font-size: clamp(1.95rem, 3.5vw, 2.45rem);
+      margin-bottom: 0.35rem;
+    }
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.98rem;
+    }
+
+    /* Gallery */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+    .photo-card {
+      background: var(--surface);
+      border: 1px solid var(--line-soft);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: transform var(--ease), box-shadow var(--ease), border-color var(--ease);
+    }
+    .photo-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+      border-color: #d8cceb;
+    }
+    .photo-wrap {
+      overflow: hidden;
+      aspect-ratio: 4 / 3;
+      background: linear-gradient(135deg, var(--purple-soft), var(--blue-soft));
+    }
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    .photo-card:hover img { transform: scale(1.04); }
+    .photo-card figcaption {
+      padding: 0.9rem 1rem;
+      font-size: 0.93rem;
+      color: var(--muted);
+      text-align: center;
+      background: linear-gradient(180deg, #fff, var(--surface-soft));
+      border-top: 1px solid var(--line-soft);
+    }
+
+    /* Letter */
+    .letter-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .letter-card {
+      position: relative;
+      background:
+        radial-gradient(600px 200px at 50% 0%, rgba(220,210,243,0.25), transparent 70%),
+        linear-gradient(180deg, #fffefb 0%, #fbf7ef 100%);
+      border: 1px solid #e6d8b5;
+      border-radius: var(--radius-lg);
+      padding: 2.75rem 2.5rem 2.4rem;
+      box-shadow: var(--shadow-md);
+    }
+    .letter-card::before {
+      content: "";
+      position: absolute;
+      top: 14px; left: 14px; right: 14px; bottom: 14px;
+      border: 1px solid rgba(201, 150, 43, 0.25);
+      border-radius: 14px;
+      pointer-events: none;
+    }
+    .letter-label {
+      font-family: "Inter", sans-serif;
+      font-size: 0.76rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold-deep);
+      margin: 0 0 1.25rem;
+      font-weight: 600;
+      text-align: center;
+    }
+    .letter-body {
+      position: relative;
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 1.38rem;
+      line-height: 1.9;
+      color: #322a45;
+    }
+    .letter-body p { margin: 0 0 1.05em; }
+    .letter-body p:last-of-type { margin-bottom: 0; }
+    .letter-body .highlight {
+      color: var(--purple-deep);
+      font-weight: 600;
+      background: linear-gradient(180deg, transparent 60%, rgba(201,150,43,0.18) 60%);
+      padding: 0 0.15em;
+    }
+    .signature {
+      margin-top: 1.8rem;
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 1.45rem;
+      color: var(--purple-deep);
+      font-weight: 600;
+    }
+
+    .footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 3.5rem;
+    }
+
+    /* Animations */
+    .fade-in { animation: fadeIn 0.8s ease both; }
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 860px) {
+      .gallery { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      #loginScreen.active { padding: 1.5rem 1rem; }
+      .login-card { padding: 2.2rem 1.25rem 1.75rem; }
+      #surpriseScreen { padding: 2.25rem 1rem 3rem; }
+      .hero { padding-top: 0.25rem; }
+      .hero-lead { font-size: 1rem; }
+      .quote-banner { padding: 1.15rem 1rem; margin-top: 2rem; }
+      .quote-banner p { font-size: 1.25rem; }
+      .gallery { grid-template-columns: 1fr; gap: 1rem; }
+      .section { margin-top: 3rem; }
+      .letter-card { padding: 2rem 1.25rem 1.75rem; }
+      .letter-card::before { top: 10px; left: 10px; right: 10px; bottom: 10px; }
+      .letter-body { font-size: 1.22rem; line-height: 1.85; }
+      .ornament::before, .ornament::after { width: 50px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .fade-in { animation: none; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .photo-card, .photo-card img, .btn { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Screen 1: Login -->
+  <section id="loginScreen" class="screen active" aria-label="Login">
+    <div class="login-card">
+      <div class="login-crest" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 7l4.5 4L12 4l4.5 7L21 7l-2 13H5L3 7z"/>
+          <path d="M5 20h14"/>
+        </svg>
+      </div>
+      <p class="eyebrow">Princess Day ✨</p>
+      <h1>For My Princess, <span>Sushma</span> 👑</h1>
+      <p class="login-sub">A small surprise, made with love for you, Gajjubomma. 💜</p>
+
+      <form id="loginForm" novalidate>
+        <div class="field">
+          <label for="nameInput">Your name</label>
+          <input class="input" type="text" id="nameInput" name="name" placeholder="Enter your name" autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="passwordInput">Secret word 🔑</label>
+          <input class="input" type="password" id="passwordInput" name="password" placeholder="Enter the secret word" autocomplete="off">
+        </div>
+        <p class="hint" id="loginHint" aria-live="polite"></p>
+        <button type="submit" class="btn">Open Surprise ✨</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Screen 2: Surprise -->
+  <section id="surpriseScreen" class="screen" aria-label="Surprise">
+    <div class="container">
+      <header class="hero">
+        <div class="hero-crest" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3l2.2 4.8 5.3.5-4 3.6 1.1 5.1-4.6-2.6-4.6 2.6 1.1-5.1-4-3.6 5.3-.5L12 3z"/>
+          </svg>
+        </div>
+        <p class="eyebrow">Happy Princess Day</p>
+        <h1>My Dear <span>Sushma</span></h1>
+        <p class="hero-lead">
+          Today is a gentle celebration of you — the most precious person in my life.
+          You fill my days with light, warmth, and love in ways I can never fully express.
+          This little space is made just for you, my princess forever.
+        </p>
+        <div class="ornament" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2 5.5 5.5.4-4.2 3.5 1.3 5.4L12 14.6 7.4 17.3l1.3-5.4-4.2-3.5 5.5-.4 2-5.5z"/></svg>
+        </div>
+      </header>
+
+      <div class="quote-banner purple reveal">
+        <p><span>My maa</span> — your love is the home my heart always returns to.</p>
+      </div>
+
+      <section class="section reveal" aria-labelledby="memoriesTitle">
+        <div class="section-head">
+          <h2 id="memoriesTitle">Memories</h2>
+          <p>A few little frames for the moments I cherish with you.</p>
+        </div>
+        <div class="gallery">
+          <figure class="photo-card">
+            <div class="photo-wrap">
+              <img src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=800&q=80" alt="Soft flowers in gentle light" loading="lazy">
+            </div>
+            <figcaption>Your smile brightens everything</figcaption>
+          </figure>
+          <figure class="photo-card">
+            <div class="photo-wrap">
+              <img src="https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=800&q=80" alt="Warm glowing lights" loading="lazy">
+            </div>
+            <figcaption>Every moment with you is special</figcaption>
+          </figure>
+          <figure class="photo-card">
+            <div class="photo-wrap">
+              <img src="https://images.unsplash.com/photo-1468327768560-75b778cbb551?auto=format&fit=crop&w=800&q=80" alt="Elegant purple flowers" loading="lazy">
+            </div>
+            <figcaption>Graceful, strong, and beautiful</figcaption>
+          </figure>
+          <figure class="photo-card">
+            <div class="photo-wrap">
+              <img src="https://images.unsplash.com/photo-1502134249126-9f3755a50d78?auto=format&fit=crop&w=800&q=80" alt="Calm starry night sky" loading="lazy">
+            </div>
+            <figcaption>A light that guides me always</figcaption>
+          </figure>
+          <figure class="photo-card">
+            <div class="photo-wrap">
+              <img src="https://images.unsplash.com/photo-1504198458649-3128b932f49e?auto=format&fit=crop&w=800&q=80" alt="Soft morning light through a window" loading="lazy">
+            </div>
+            <figcaption>The comfort I am grateful for</figcaption>
+          </figure>
+          <figure class="photo-card">
+            <div class="photo-wrap">
+              <img src="https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=800&q=80" alt="Golden sunrise over the horizon" loading="lazy">
+            </div>
+            <figcaption>Praying for brighter days ahead</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <div class="quote-banner blue reveal">
+        <p><span>My amma</span> — my comfort, my blessing, and the warmth in my life.</p>
+      </div>
+
+      <section class="section reveal" aria-labelledby="letterTitle">
+        <div class="section-head">
+          <h2 id="letterTitle">A Letter for You</h2>
+          <p>From your brother, with all my heart.</p>
+        </div>
+        <div class="letter-wrap">
+          <article class="letter-card" aria-label="A letter from your brother">
+            <p class="letter-label">With all my love</p>
+            <div class="letter-body">
+              <p>My dearest Sushma, 💌</p>
+              <p>On this Princess Day, I want you to feel just how deeply you are loved. You are not only my sister — you are my comfort, my strength, and a blessing I thank God for every day. No matter what life brings, you will always be my princess forever. 👑</p>
+              <p>It hurts my heart to know that you have been suffering from a health issue. I think of you constantly, and I pray to God with all my heart for your recovery 🙏, for your pain to ease, and for your beautiful smile to shine bright again. 🌟 Please stay strong and take care of yourself — <span class="highlight">get well soon nanna</span>. 💜</p>
+              <p>There are no words big enough to express how much I love you. 💫 I am always here for you, holding you close in my heart and in my prayers, today and always. 🤍</p>
+            </div>
+            <div class="signature">With endless love,<br>Your brother</div>
+          </article>
+        </div>
+      </section>
+
+      <p class="footer reveal">Made with love for Sushma, always. 💛</p>
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      var SECRET_WORD = 'my lovely princess';
+
+      var loginScreen = document.getElementById('loginScreen');
+      var surpriseScreen = document.getElementById('surpriseScreen');
+      var loginForm = document.getElementById('loginForm');
+      var nameInput = document.getElementById('nameInput');
+      var passwordInput = document.getElementById('passwordInput');
+      var loginHint = document.getElementById('loginHint');
+
+      loginForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var name = (nameInput.value || '').trim();
+        var password = (passwordInput.value || '').trim().toLowerCase();
+
+        if (!name) {
+          var nameMsg = 'Please enter your name to open the surprise. 💌';
+          loginHint.textContent = nameMsg;
+          alert(nameMsg);
+          nameInput.focus();
+          return;
+        }
+        if (password !== SECRET_WORD) {
+          var passMsg = 'That secret word is not quite right, princess. Please try again. 🔑';
+          loginHint.textContent = passMsg;
+          alert(passMsg);
+          passwordInput.focus();
+          return;
+        }
+
+        loginHint.textContent = '';
+        alert('Welcome, my princess! Opening your surprise... 👑✨');
+        loginScreen.classList.remove('active');
+        surpriseScreen.classList.add('active', 'fade-in');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        revealNow();
+      });
+
+      var revealEls = document.querySelectorAll('.reveal');
+      function revealNow() {
+        revealEls.forEach(function (el) {
+          var rect = el.getBoundingClientRect();
+          if (rect.top < window.innerHeight * 0.92) {
+            el.classList.add('visible');
+          }
+        });
+      }
+
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              io.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12 });
+        revealEls.forEach(function (el) { io.observe(el); });
+      } else {
+        window.addEventListener('scroll', revealNow, { passive: true });
+      }
+
+      document.querySelectorAll('.photo-card img').forEach(function (img) {
+        img.addEventListener('error', function () {
+          this.style.display = 'none';
+          this.parentElement.style.background = 'linear-gradient(135deg, #ede7f8, #e6efff)';
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
